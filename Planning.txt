@@ -1,0 +1,61 @@
+#Restaurant - Booking App
+
+Problem: Create an app that allows users to create reservations at restaurants of their choosing.
+
+Requirements:
+APP: 1. Use protected routing - authentication. 2. Authorization - USER VS ADMIN. 3. Must have a CLIENT APP AND ADMIN WEB APP.
+
+    USERS:
+        1. Must be able  to register, login and view/update their profile.
+        2. Must be able to view, book at a restaurant.
+        3. Must be able to view their bookings.
+        4. Must be able to leave a rating and review.
+
+
+    ADMIN:
+        1. Must be able to view, add, update their restaurant    .
+        2. Must be able to view and update their details - Profile Page.
+        3. Must be able to view reservations made by users.
+        4. Must be able to send and recieve notifications
+
+    Restaurant inputs:
+    1. Name.
+    2. Photo Gallery of the restaurant.
+    3. Menu.
+    4. Address.
+    5. About.
+    6. Contact.
+    7. Hours.
+    8. Tags.
+    9. Bookings.
+
+Database structure:
+    Models: 
+        USER: {
+            name: string,
+            surname: string,
+            email: string,
+            password: string,
+            role: string,
+        }
+
+        Restaurant: {
+            adminId: number,
+            name: string,
+            images: {type: Array},
+            address: string,
+            about: string,
+            contact: string,
+            hours: string,
+            menu: tags: [String],
+            tags: [String],
+        }
+
+        Booking: {
+            restaurantId: number,
+            userId: number,
+            date: string,
+            time: string,
+            guests: number,
+            createdAt: Date,
+        }
