@@ -42,6 +42,8 @@ Api Endpoints:
     1. GET /restaurants.
     2. GET /restaurants/:restaurantId.
     3. POST /restaurants/:restaurantId/book.
+
+
 ```
 
 ## Credits:

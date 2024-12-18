@@ -40,9 +40,9 @@ Database structure:
         }
 
         Restaurant: {
-            adminId: number,
+            adminId: string,
             name: string,
-            images: {type: Array},
+            imageUrl: {type: string},
             address: string,
             about: string,
             contact: string,
@@ -52,7 +52,7 @@ Database structure:
         }
 
         Booking: {
-            restaurantId: number,
+            restaurantId: string,
             userId: number,
             date: string,
             time: string,
