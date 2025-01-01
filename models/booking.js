@@ -6,6 +6,8 @@ const bookingSchema = new mongoose.Schema({
   day: { type: String, required: true },
   hour: { type: String, required: true },
   guest: { type: Number, required: true },
+  status: { type: String, default: "pending", required: true },
+
   createdAt: { type: Date, default: Date.now() },
 });
 const Booking = mongoose.model("Booking", bookingSchema);

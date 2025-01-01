@@ -27,6 +27,12 @@ restaurantRouter.post(
   Authorize("USER"),
   restaurantController.createBooking
 );
+restaurantRouter.put(
+  "/:restaurantId/bookings/:bookingId",
+  Authenticate,
+  Authorize("ADMIN"),
+  restaurantController.updateBooking
+);
 restaurantRouter.post(
   "/",
   Authenticate,
@@ -50,7 +56,6 @@ restaurantRouter.delete(
 restaurantRouter.get(
   "/:restaurantId/reviews",
   Authenticate,
-  Authorize("ADMIN"),
   restaurantController.getRestaurantReviews
 );
 restaurantRouter.post(

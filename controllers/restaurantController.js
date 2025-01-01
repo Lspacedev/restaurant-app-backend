@@ -13,32 +13,30 @@ async function createRestaurant(req, res) {
       folder: "restaurants",
     };
     //upload to cloudinary
-    const result = await cloudinary.uploader.upload(
-      req.file.path,
-      options,
-      async function (err, result) {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({
-            success: false,
-            message: err.message,
-          });
-        }
-        fs.unlink(`./tmp/${req.file.filename}`, (err) => {
-          if (err) {
-            console.error(err);
-            return;
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        options,
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
           }
-        });
-        return result;
-      }
-    );
+        }
+      );
+      // Write the buffer to the stream
+      uploadStream.end(req.file.buffer);
+    });
     const secure_url = result.secure_url;
     const restaurantObj = {
       adminId: req.user._id,
       ...req.body,
+      address: JSON.parse(req.body.address),
+      menu: JSON.parse(req.body.menu),
+      tags: JSON.parse(req.body.tags),
       imageUrl: secure_url,
     };
+
     const findRestaurant = await Restaurant.find({ adminId: req.user._id });
     if (findRestaurant.length === 0) {
       const restaurant = await Restaurant.create(restaurantObj);
@@ -86,7 +84,9 @@ async function getRestaurantById(req, res) {
 async function updateRestaurant(req, res) {
   try {
     const { restaurantId } = req.params;
+    console.log(req.body);
     const { name, address, about, phone, days, hours, menu, tags } = req.body;
+
     let isUpdate = false;
     let updatedRestaurant;
     if (name !== "") {
@@ -135,6 +135,13 @@ async function updateRestaurant(req, res) {
       updatedRestaurant = await Restaurant.updateOne(
         { _id: restaurantId },
         { $set: { menu: menu } }
+      );
+      isUpdate = true;
+    }
+    if (tags.length > 0) {
+      updatedRestaurant = await Restaurant.updateOne(
+        { _id: restaurantId },
+        { $set: { tags: tags } }
       );
       isUpdate = true;
     }
@@ -191,6 +198,7 @@ async function getRestaurantBookings(req, res) {
           day: booking.day,
           hour: booking.hour,
           guest: booking.guest,
+          status: booking.status,
           name: user.name,
           surname: user.surname,
           email: user.email,
@@ -239,6 +247,29 @@ async function createBooking(req, res) {
     res.status(500).json({ error: "An error occured while creating booking." });
   }
 }
+async function updateBooking(req, res) {
+  try {
+    const { bookingId } = req.params;
+    const { status } = req.body;
+    console.log({ status });
+    if (status) {
+      const updatedBooking = await Booking.updateOne(
+        { _id: bookingId },
+        { $set: { status: status } }
+      );
+
+      res
+        .status(200)
+        .json({ message: "Booking has been successfully updated" });
+    } else {
+      console.log("un");
+      res.status(400).json({ message: "Booking not updated" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "An error occured while creating booking." });
+  }
+}
 
 async function getRestaurantReviews(req, res) {
   try {
@@ -246,6 +277,7 @@ async function getRestaurantReviews(req, res) {
     const reviews = await Review.find({
       restaurantId: restaurantId,
     });
+    console.log({ restaurantId, reviews });
 
     res.status(200).json({ reviews });
   } catch (error) {
@@ -304,4 +336,5 @@ export default {
   getRestaurantReviews,
   createReview,
   pushNotifications,
+  updateBooking,
 };

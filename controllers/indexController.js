@@ -91,6 +91,7 @@ async function userLogin(req, res) {
     return res.status(200).json({
       message: "Auth Passed",
       token,
+      userId: user.id,
     });
   } catch (error) {
     res.status(500).json({ error: "An error occured while logging in." });
