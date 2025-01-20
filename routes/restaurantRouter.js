@@ -15,6 +15,7 @@ restaurantRouter.get(
   Authenticate,
   restaurantController.getRestaurantById
 );
+
 restaurantRouter.get(
   "/:restaurantId/bookings",
   Authenticate,
@@ -69,5 +70,11 @@ restaurantRouter.post(
   Authenticate,
   Authorize("USER"),
   restaurantController.pushNotifications
+);
+
+restaurantRouter.get(
+  "/:restaurantId/pay",
+  Authenticate,
+  restaurantController.makePayment
 );
 export default restaurantRouter;

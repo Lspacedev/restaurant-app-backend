@@ -4,6 +4,7 @@ import Restaurant from "../models/restaurant.js";
 import Booking from "../models/booking.js";
 import User from "../models/user.js";
 import Review from "../models/review.js";
+import Stripe from "stripe";
 async function createRestaurant(req, res) {
   try {
     const { originalname, path, size } = req.file;
@@ -325,6 +326,25 @@ async function pushNotifications(req, res) {
   );
   res.status(201).json(updatedUserNotification);
 }
+
+async function makePayment(req, res) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: req.body.amount,
+      currency: "zar",
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+
+    res.json({ paymentIntent: paymentIntent.client_secret });
+  } catch (e) {
+    res.status(400).json({
+      error: e.message,
+    });
+  }
+}
 export default {
   createRestaurant,
   getRestaurants,
@@ -337,4 +357,5 @@ export default {
   createReview,
   pushNotifications,
   updateBooking,
+  makePayment,
 };
