@@ -1,23 +1,62 @@
-# React Native + MongoDb + Express App
+# Restaurant App | Backend
 
 Restaurnat booking/management app.
 
+### Restaurant App | Frontend
+
+[https://github.com/Lspacedev/restaurant-app-admin](https://github.com/Lspacedev/restaurant-app-admin)
+
+## Prerequisites
+
+- Nodejs
+- A Cloudinary account, follow the link [here](https://cloudinary.com/)
+
 ## Installation
 
-npm install
+1. Clone the repository
 
 ```bash
-Run project:
-node --watch index
+git@github.com:Lspacedev/restaurant-app-backend.git
 ```
 
-## Frontend:
+2. Navigate to the project folder
 
-```python
-App is built using React Native Expo
+```bash
+cd restaurant-app-backend
 ```
 
-## Backend:
+3.  Install all dependencies
+
+```bash
+npm install
+```
+
+4. Create an env file and add the following:
+
+```bash
+STRIPE_SECRET_KEY="Stripe secret key"
+PORT="Specify your port here"
+MONGO_URI_PROD="MongoDb database uri"
+JWT_SECRET="Jwt secret"
+CLOUDINARY_CLOUD_NAME="Cloudinary cloud name"
+CLOUDINARY_API_KEY="Cloudinary api key"
+CLOUDINARY_SECRET_KEY="Cloudinary secret key"
+
+
+```
+
+5. Run the project
+
+```bash
+node index
+```
+
+## Usage
+
+1. The server should run on PORT 8000, unless a port is specified.
+2. Use http://localhost:8000, to test the API on Postman or any other tool.
+
+## Routes:
 
 ```python
 Api is built using a Node Express server, with MongoDb as a database.
@@ -85,14 +124,8 @@ Api Endpoints:
 
 ```
 
-## Credits:
+## Tech Stack
 
-```python
-
-```
-
-## Flows:
-
-```python
-
-```
+- NodeJs
+- Express
+- MongoDb
