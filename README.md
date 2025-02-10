@@ -6,6 +6,10 @@ Restaurnat booking/management app.
 
 [https://github.com/Lspacedev/restaurant-app-admin](https://github.com/Lspacedev/restaurant-app-admin)
 
+### Restaurant App | API
+
+[LIVE](https://restaurant-app-backend-sandy.vercel.app/)
+
 ## Prerequisites
 
 - Nodejs
